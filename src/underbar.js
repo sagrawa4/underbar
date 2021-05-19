@@ -200,6 +200,19 @@
   //   }); // should be 5, regardless of the iterator function passed in
   //          No accumulator is given so the first element is used.
   _.reduce = function(collection, iterator, accumulator) {
+
+    var result = 0;
+    _.each(collection, function(item) {
+      if (accumulator === undefined) {
+        accumulator = item;
+        result = iterator(item);
+      } else {
+        result = iterator(accumulator, item);
+        accumulator = result;
+      }
+    });
+
+    return result;
   };
 
 
