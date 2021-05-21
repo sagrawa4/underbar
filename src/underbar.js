@@ -96,20 +96,13 @@
   };
 
   // Return all elements of an array that don't pass a truth test.
-  _.reject = function(collection, test) {
+  _.reject = function(collection, test1) {
     // TIP: see if you can re-use _.filter() here, without simply
     // copying code in and modifying it
-
-    var rejected = [];
-    var accepted = _.filter(collection, test);
-
-    _.each(collection, function(item) {
-      if (accepted.includes(item) === false) {
-        rejected.push(item);
-      }
+    return _.filter(collection, function(item) {
+      return !test1(item);
     });
 
-    return rejected;
   };
 
   // Produce a duplicate-free version of the array.
@@ -205,7 +198,7 @@
     _.each(collection, function(item) {
       if (accumulator === undefined) {
         accumulator = item;
-        result = iterator(item);
+        result = iterator(accumulator, item);
       } else {
         result = iterator(accumulator, item);
         accumulator = result;
@@ -250,6 +243,24 @@
   // Determine whether all of the elements match a truth test.
   _.every = function(collection, iterator) {
     // TIP: Try re-using reduce() here.
+    if (collection.length === 0) {
+      return true;
+    }
+
+    if (iterator !== undefined) {
+      collection = _.each(collection, iterator);
+    }
+
+    var falsy = [false, null, undefined, 0, NaN];
+
+    return _.reduce(collection, function(match, item) {
+      console.log(match);
+      if (match === true && _.contains(falsy, item)) {
+        return false;
+      } else {
+        return true;
+      }
+    }, true);
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
@@ -257,7 +268,6 @@
   _.some = function(collection, iterator) {
     // TIP: There's a very clever way to re-use every() here.
   };
-
 
   /**
    * OBJECTS
