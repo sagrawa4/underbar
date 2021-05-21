@@ -247,20 +247,35 @@
       return true;
     }
 
-    if (iterator !== undefined) {
-      collection = _.each(collection, iterator);
+    /*if(iterator !== undefined){
+      collection = _.each(collection, iterator)
     }
-
+*/
     var falsy = [false, null, undefined, 0, NaN];
 
-    return _.reduce(collection, function(match, item) {
-      console.log(match);
-      if (match === true && _.contains(falsy, item)) {
-        return false;
-      } else {
-        return true;
-      }
-    }, true);
+    if (iterator !== undefined) {
+      return _.reduce(collection, function(match, item) {
+        if (match === true) {
+          var bool = iterator(item);
+          if (_.contains(falsy, bool)) {
+            return false;
+          }
+          return true;
+        } else {
+          return false;
+        }
+
+      }, true);
+
+    } else {
+      return _.reduce(collection, function(match, item) {
+        if (match === true && _.contains(falsy, item)) {
+          return false;
+        } else {
+          return true;
+        }
+      }, true);
+    }
   };
 
   // Determine whether any of the elements pass a truth test. If no iterator is
