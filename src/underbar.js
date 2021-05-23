@@ -423,11 +423,10 @@
   // call someFunction('a', 'b') after 500ms
   _.delay = function(func, wait) {
 
-    var counter = 0;
 
-    func = function() {
-      return counter + wait;
-    };
+    return setTimeout(func, wait);
+
+
   };
 
 
@@ -442,11 +441,17 @@
   // input array. For a tip on how to make a copy of an array, see:
   // http://mdn.io/Array.prototype.slice
   _.shuffle = function(array) {
-    var result;
+    var result = array.slice();
 
-    _.each(array, function(item) {
-      result.push(item.sort());
-    });
+    for (var i = 0; i < 5; i++) {
+      var random1 = parseInt(Math.random() * ((result.length - 1) - 0) + 0);
+
+      var random2 = parseInt(Math.random() * ((result.length - 1) - 0) + 0);
+      var temp = result[random1];
+      result[random1] = result[random2];
+
+      result[random2] = temp;
+    }
 
     return result;
   };
